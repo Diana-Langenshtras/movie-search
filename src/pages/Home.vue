@@ -20,9 +20,8 @@ export default {
         }
     },
     computed: {
-        /* --------------REMAKE---------*/
         moviesByTitle() {
-            return this.movies.filter(movie => movie.name.indexOf(this.search) !== -1)
+            return this.movies.filter(movie => movie.name.toLowerCase().indexOf(this.search.toLowerCase()) !== -1)
         },
     },
     beforeMount() {
