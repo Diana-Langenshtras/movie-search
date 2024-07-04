@@ -1,2 +1,32 @@
 @import 'globals';
+@import 'variables';
 
+h1 {
+    font-size: 48px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+.main {
+    min-inline-size: 320px;
+    min-block-size: 100dvb;
+    background-color: $primary-bg-color;
+    color: $text-color;
+    font-size: 20px;
+}
+
+@media (width <= 768px) {
+    h1 {
+        font-size: 36px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+    
+    .main {
+        font-size: 16px;
+    }
+  }

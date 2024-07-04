@@ -22,5 +22,6 @@ import router from './router'
 //pinia
 import { createPinia } from 'pinia'
 
-const app = createApp(App).use(router).use(vuetify).use(createPinia()).mount('#app')
+const app = createApp(App).use(router).use(vuetify).use(createPinia()).mount('#app');
+
 
