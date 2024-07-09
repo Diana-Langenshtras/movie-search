@@ -27,23 +27,53 @@ import { ref } from 'vue';
     const rating = rootStore.savesAndRatings[route.params.id]?.rating ? ref(rootStore.savesAndRatings[route.params.id].rating) : ref(5);
     const active = rootStore.savesAndRatings[route.params.id]?.save ? ref(rootStore.savesAndRatings[route.params.id].save) : ref(false);
     const buttonText = ref('Добавить в закладки');
-    
+
+    function match(str1, str2){
+        let tmpValue = 0;
+        let minLength = str1.length;
+        if(str1.length > str2.length){
+            minLength = str2.length;
+        }	
+        let maxLength = str1.length;
+        if(str1.length < str2.length){
+            maxLength = str2.length;
+        }
+        for(let i = 0; i < minLength; i++) {
+            if(str1[i] == str2[i]) {
+                tmpValue++;
+            }
+        }
+        let weight = tmpValue / maxLength;
+        return (weight * 100);
+    }
+
    /* console.log(rootStore.movies)
     console.log(movies)
     const movie =  movies._object.movies.find(movie => movie?.id === route.params.id);
   //  const movie = ref(rootStore.movies.find(movie => movie?.id === route.params.id));
   console.log(movie)*/
 
-  const movie = computed(() => getMovie(route.params.id));
+    const movie = computed(() => getMovie(route.params.id));
 
     function getMovie(id) {
         return rootStore.movies.find(movie => movie?.id === id);
     }
 
-    watch(movie, current => {
-    
-    //if (current) fetchComments(current.id);
-    }, { immediate: true })
+    watch(movie, current => {}, { immediate: true })
+
+    const similarMovies = computed(() => {
+        const array = [];
+        rootStore.movies.map(el => {
+          //  console.log(match(String(movie.value.description), String(el.description)))
+            if (10 < match(String(movie.value.shortDescription), String(el.shortDescription)) && match(String(movie.value.shortDescription), String(el.shortDescription)) < 100)
+             {   
+           //     console.log(match(String(movie.value.shortDescription), String(el.shortDescription)))
+                array.push(el);
+             }
+        })
+        console.log(array);
+        return array;
+    });
 
     function handleClick() {
         active.value = !active.value;
@@ -178,6 +208,14 @@ export default {
                 </span>    
             </div>
             <p>{{ movie?.description }}</p>
+        </section>
+        <section>
+            <h2>рекомендуем посмотреть</h2>
+            <ul class="main__list">
+                <li class="main__item" v-for="(movie,index) in similarMovies">
+                    
+                </li>
+            </ul>
         </section>
     </main>
 </template>
