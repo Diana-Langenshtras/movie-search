@@ -1,8 +1,6 @@
 <script setup>
 import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiClockTimeFourOutline, mdiSortNumericVariant } from '@mdi/js';
-import { mdiCalendarBlankOutline } from '@mdi/js';
-import { mdiStarOutline } from '@mdi/js';
+import { mdiClockTimeFourOutline, mdiSortNumericVariant, mdiCalendarBlankOutline, mdiStarOutline } from '@mdi/js';
 
 import StarRating from 'vue-star-rating'
 
@@ -14,13 +12,13 @@ import { watch } from 'vue'
 import { computed } from 'vue';
 import { ref } from 'vue';
 
+import MovieCard from '../components/MovieCard.vue'
 
     const route = useRoute()
     const rootStore = useRootStore();
     rootStore.getMovies();
-    const {movies} = storeToRefs(rootStore);
+ //   const {movies} = storeToRefs(rootStore);
   //  const {savesAndRatings} = storeToRefs(rootStore);
-
     const pathTime = mdiClockTimeFourOutline;
     const pathDate = mdiCalendarBlankOutline;
     const pathRate = mdiStarOutline;
@@ -213,7 +211,13 @@ export default {
             <h2>рекомендуем посмотреть</h2>
             <ul class="main__list">
                 <li class="main__item" v-for="(movie,index) in similarMovies">
-                    
+                    <MovieCard 
+                        :key="index"
+                        :id="Number(movie.id)"
+                        :movie="movie"
+                        >
+                        {{ console.log(movie) }}
+                    </MovieCard>
                 </li>
             </ul>
         </section>
