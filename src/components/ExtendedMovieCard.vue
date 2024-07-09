@@ -1,6 +1,6 @@
 <script setup>
 import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiClockTimeFourOutline } from '@mdi/js';
+import { mdiClockTimeFourOutline, mdiSortNumericVariant } from '@mdi/js';
 import { mdiCalendarBlankOutline } from '@mdi/js';
 import { mdiStarOutline } from '@mdi/js';
 
@@ -11,20 +11,39 @@ import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
 import { watch } from 'vue'
+import { computed } from 'vue';
 import { ref } from 'vue';
+
 
     const route = useRoute()
     const rootStore = useRootStore();
     rootStore.getMovies();
     const {movies} = storeToRefs(rootStore);
-    const {savesAndRatings} = storeToRefs(rootStore);
+  //  const {savesAndRatings} = storeToRefs(rootStore);
 
     const pathTime = mdiClockTimeFourOutline;
     const pathDate = mdiCalendarBlankOutline;
     const pathRate = mdiStarOutline;
-    const rating = ref(rootStore.savesAndRatings[route.params.id].rating);
-    const active = ref(rootStore.savesAndRatings[route.params.id].save);
+    const rating = rootStore.savesAndRatings[route.params.id]?.rating ? ref(rootStore.savesAndRatings[route.params.id].rating) : ref(5);
+    const active = rootStore.savesAndRatings[route.params.id]?.save ? ref(rootStore.savesAndRatings[route.params.id].save) : ref(false);
     const buttonText = ref('Добавить в закладки');
+    
+   /* console.log(rootStore.movies)
+    console.log(movies)
+    const movie =  movies._object.movies.find(movie => movie?.id === route.params.id);
+  //  const movie = ref(rootStore.movies.find(movie => movie?.id === route.params.id));
+  console.log(movie)*/
+
+  const movie = computed(() => getMovie(route.params.id));
+
+    function getMovie(id) {
+        return rootStore.movies.find(movie => movie?.id === id);
+    }
+
+    watch(movie, current => {
+    
+    //if (current) fetchComments(current.id);
+    }, { immediate: true })
 
     function handleClick() {
         active.value = !active.value;
@@ -130,7 +149,7 @@ export default {
 <!--   <main class="main" :style="{'background-color':`${movies[$route.params.id].color}`}">-->
     <main class="main">
         <div class="main__container">
-            <img class="main__img" :src="movies[route.params.id]?.poster.url" :alt="`Постер фильма '${movies[route.params.id]?.name}'`">
+            <img class="main__img" :src="movie?.poster.url" :alt="`Постер фильма '${movie?.name}'`">
             <star-rating v-model:rating="rating" :increment="0.5" :max-rating="10" :star-size="20"/>
             <button class="button" @click="handleClick" :style="{
                 backgroundColor: active ? '#ffd055' : '#002677',
@@ -142,23 +161,23 @@ export default {
             </button> 
         </div>
         <section class="main__description">
-            <h1>{{ movies[route.params.id]?.name }}</h1>
-            <h2>{{ movies[route.params.id]?.shortDescription }}</h2>
+            <h1>{{ movie?.name }}</h1>
+            <h2>{{ movie?.shortDescription }}</h2>
             <div class="description__info">
                 <span class="description__item">
                     <svg-icon type="mdi" :path="pathTime"></svg-icon>
-                    {{ movies[route.params.id]?.movieLength }}
+                    {{ movie?.movieLength }}
                 </span>
                 <span class="description__item">
                     <svg-icon type="mdi" :path="pathDate"></svg-icon>
-                    {{ movies[route.params.id]?.year }}
+                    {{ movie?.year }}
                 </span>
                 <span class="description__item">
                     <svg-icon type="mdi" :path="pathRate"></svg-icon>
-                    {{ (movies[route.params.id]?.rating.kp)?.toFixed(1) }}
+                    {{ (movie?.rating.kp)?.toFixed(1) }}
                 </span>    
             </div>
-            <p>{{ rootStore.movies[route.params.id]?.description }}</p>
+            <p>{{ movie?.description }}</p>
         </section>
     </main>
 </template>

@@ -43,6 +43,7 @@ export default {
           else{
             switch(this.sortParam){
                 case 'year': {
+                  console.log( this.movies.sort(sortByYear).slice(start, end))
                   return this.movies.sort(sortByYear).slice(start, end);
                 }
                 case 'rating': {
@@ -137,9 +138,11 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
         ></MovieCard></li>-->
         <li class="main__item" v-for="(movie,index) in sortedMovies"><MovieCard 
           :key="index"
-          :id="index"
+          :id="Number(movie.id)"
           :movie="movie"
-        ></MovieCard></li>
+        >
+        {{ console.log(sortedMovies) }}
+      </MovieCard></li>
     </ul>
   </main>
 </template>
