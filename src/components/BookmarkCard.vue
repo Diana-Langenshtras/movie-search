@@ -1,5 +1,5 @@
 <template>
-    <v-card color="#1F7087" class="card">
+    <v-card class="card">
         <div class="d-flex flex-no-wrap justify-space-between">
             <div>
                 <v-card-title class="text-h5"> {{ movie.name }} </v-card-title>
@@ -23,14 +23,14 @@
                     <v-btn
                         class="ms-2 button"
                         size="small"
-                        text="удалить"
+                        text="Удалить"
                         variant="outlined"
                     ></v-btn>
                 </v-card-actions>
             </div>
 
-            <v-avatar class="ma-3" rounded="0" size="125">       
-                <v-img
+            <v-avatar class="ma-3 img" rounded="0" size="125">       
+                <v-img 
                     :src="movie?.poster.previewUrl" :alt="`Постер фильма '${movie?.name}'`"
                 ></v-img>
             </v-avatar>
@@ -40,15 +40,25 @@
 
 
 <script>
+import SvgIcon from '@jamescoyle/vue-icon';
+import { mdiClockTimeFourOutline, mdiSortNumericVariant, mdiCalendarBlankOutline, mdiStarOutline } from '@mdi/js';
+
   export default {
     props: {
       id: Number,
       movie: Object,
     },
+    components: {
+        SvgIcon, 
+    },
 
-    data: () => ({ 
-      
-     }),
+    data() {
+        return {
+            pathTime: mdiClockTimeFourOutline,
+            pathDate: mdiCalendarBlankOutline,
+            pathRate: mdiStarOutline,
+        }
+    },
   }
 </script>
 
@@ -57,16 +67,6 @@
 
 .vue-star-rating[data-v-f675a548]{
     justify-content: center;
-}
-
-.button {
-  background-color: $primary-color;
-  color: $text-color;
-  padding: 10px;
-  font-size: 20px;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
 }
 
 .description__info {
@@ -81,6 +81,16 @@
     flex-direction: row;
     gap: 10px;
     justify-content: center;
+}
+
+.card {
+    background-color: $secondary-bg-color;
+    color: $text-color;
+    height: 400px !important;
+}
+
+.img{
+    height: 160px !important;
 }
 
 @media (width <= 768px) {

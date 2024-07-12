@@ -81,6 +81,9 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
 
 <template>
   <main class="main">
+    <router-link class="link" :to="`/bookmarks`">
+      <v-btn class="button">Закладки и оценки</v-btn>
+    </router-link>
     <v-card class="main__card-search" flat >
       <v-toolbar class="card__toolbar" dense floating>
         <v-text-field
@@ -101,26 +104,26 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
     <div class="main__buttons">
       <div class="main__button-container">
         <button class="button" v-if="page > 1" @click="page = page - 1">
-            назад
+            Назад
             <svg-icon type="mdi" :path="pathPrev"></svg-icon> 
         </button>
         <button class="button" v-if="hasNextPage" @click="page = page + 1">
-            вперед
+            Вперед
             <svg-icon type="mdi" :path="pathNext"></svg-icon>   
         </button>
       </div>
 
       <div class="main__button-container">
         <button class="button" @click="sortParam='year'">
-            год
+            Год
           <svg-icon type="mdi" :path="pathDate"></svg-icon>    
         </button>
         <button class="button" @click="sortParam='rating'">
-            рейтинг
+            Рейтинг
           <svg-icon type="mdi" :path="pathRate"></svg-icon>    
         </button>
         <button class="button" @click="sortParam='timekeeping'">
-            время
+            Время
           <svg-icon type="mdi" :path="pathTime"></svg-icon>    
         </button>
       </div>
@@ -142,16 +145,17 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
 @import '../assets/styles/style.scss';
 
 .button {
-  background-color: $primary-color;
-  color: $text-color;
-  border-radius: 50px;
-  padding: 10px 20px;
-  font-size: 18px;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  text-transform: capitalize;
-}
+    background-color: $primary-color;
+    color: $text-color;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-content: center;
+    text-transform: none;
+  }
 
 .main {
   padding: 50px;

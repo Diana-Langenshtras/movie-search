@@ -2,21 +2,20 @@
     <main class="main">
         <h1>Закладки и оценки</h1>
         <ul class="main__list">
-        <li class="main__item" v-for="(movie,index) in bookmarksMovies"><BookmarkCard 
-          :key="index"
-          :id="Number(movie.id)"
-          :movie="movie"
-        >
-        {{ console.log(movie) }}
-      </BookmarkCard></li>
-    </ul>
+          <li class="main__item" v-for="(movie,index) in bookmarksMovies"><BookmarkCard 
+              :key="index"
+              :id="Number(movie.id)"
+              :movie="movie"
+            >
+            {{ console.log(movie) }}
+          </BookmarkCard></li>
+        </ul>
     </main>
 </template>
 
 <script setup>
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiClockTimeFourOutline, mdiSortNumericVariant, mdiCalendarBlankOutline, mdiStarOutline } from '@mdi/js';
-
 import StarRating from 'vue-star-rating'
 
 import { useRootStore } from '../stores/root';
@@ -52,23 +51,20 @@ import BookmarkCard from '../components/BookmarkCard.vue'
 <style lang="scss" scoped>
 @import '../assets/styles/style.scss';
 
-.button {
-  background-color: $primary-color;
-  color: $text-color;
-  border-radius: 50px;
-  padding: 10px;
-  font-size: 18px;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
 .main {
   padding: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 50px;
+}
+
+.main__list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 40px;
+  column-gap: 20px;
+  align-items: stretch;
 }
 
 </style>

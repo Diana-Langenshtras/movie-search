@@ -22,7 +22,7 @@
             scrim="#0b0f16"
             contained
           >
-          <router-link :to="`/movie/${id}`">
+          <router-link class="link" :to="`/movie/${id}`">
             <v-btn class="button" >Узнать больше</v-btn>
           </router-link>
           </v-overlay>
@@ -55,18 +55,6 @@ import { mdiStarOutline } from '@mdi/js';
 
 <style lang="scss" scoped>
 @import '../assets/styles/style.scss';
-
-.button {
-  background-color: $primary-color;
-  color: $text-color;
-  border-radius: 50px;
-  padding: 10px 20px;
-  font-size: 18px;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  text-transform: none;
-}
 
 .main__card-container {
   width: 220px;

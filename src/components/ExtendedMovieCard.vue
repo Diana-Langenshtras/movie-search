@@ -222,17 +222,6 @@ export default {
     justify-content: center;
 }
 
-.button {
-  background-color: $primary-color;
-  color: $text-color;
-  border-radius: 50px;
-  padding: 10px;
-  font-size: 24px;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
 .main {
     padding: 50px 100px;
 }
