@@ -43,7 +43,6 @@ export default {
           else{
             switch(this.sortParam){
                 case 'year': {
-                  console.log( this.movies.sort(sortByYear).slice(start, end))
                   return this.movies.sort(sortByYear).slice(start, end);
                 }
                 case 'rating': {
@@ -138,11 +137,9 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
         ></MovieCard></li>-->
         <li class="main__item" v-for="(movie,index) in sortedMovies"><MovieCard 
           :key="index"
-          :id="Number(movie.id)"
+          :id="index"
           :movie="movie"
-        >
-        {{ console.log(sortedMovies) }}
-      </MovieCard></li>
+        ></MovieCard></li>
     </ul>
   </main>
 </template>
@@ -177,6 +174,10 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
   align-items: stretch;
 }
 
+.main__item {
+  
+}
+
 .main__card-search {
   width: 80%;
   padding: 10px 20px;
@@ -192,6 +193,7 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
   border-radius: 50px;
   background-color: $secondary-bg-color;
   color: black;
+  //height: auto !important;
 }
 
 .card__input {
@@ -215,6 +217,8 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
   display: flex;
   gap: 10px;
 }
+
+
 
 @media (width <= 1150px) {
     .main {
