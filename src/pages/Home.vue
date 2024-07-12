@@ -43,6 +43,7 @@ export default {
           else{
             switch(this.sortParam){
                 case 'year': {
+                  console.log( this.movies.sort(sortByYear).slice(start, end))
                   return this.movies.sort(sortByYear).slice(start, end);
                 }
                 case 'rating': {
@@ -87,7 +88,7 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
           class="card__input"
           v-model="search"
           hide-details="auto"
-          bg-color="#151c2c"
+          bg-color="#282828"
           color="#002677"
         >
         </v-text-field>
@@ -111,35 +112,28 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
 
       <div class="main__button-container">
         <button class="button" @click="sortParam='year'">
-            year
+            год
           <svg-icon type="mdi" :path="pathDate"></svg-icon>    
         </button>
         <button class="button" @click="sortParam='rating'">
-            rating
+            рейтинг
           <svg-icon type="mdi" :path="pathRate"></svg-icon>    
         </button>
         <button class="button" @click="sortParam='timekeeping'">
-            timekeeping
+            время
           <svg-icon type="mdi" :path="pathTime"></svg-icon>    
         </button>
       </div>
     </div>
 
     <ul class="main__list">
-    <!--  <li class="main__item" v-for="(movie,index) in moviesByTitle"><MovieCard 
-          :key="index"
-          :id="index"
-          :name="movie.name"
-          :rating="movie.rating.kp"
-          :year="movie.year"
-          :poster="movie.poster.previewUrl"
-          :movie="movie"
-        ></MovieCard></li>-->
         <li class="main__item" v-for="(movie,index) in sortedMovies"><MovieCard 
           :key="index"
-          :id="index"
+          :id="Number(movie.id)"
           :movie="movie"
-        ></MovieCard></li>
+        >
+        {{ console.log(sortedMovies) }}
+      </MovieCard></li>
     </ul>
   </main>
 </template>
@@ -148,14 +142,15 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
 @import '../assets/styles/style.scss';
 
 .button {
-  background-color: $button-color;
+  background-color: $primary-color;
   color: $text-color;
   border-radius: 50px;
-  padding: 10px;
+  padding: 10px 20px;
   font-size: 18px;
   display: flex;
   gap: 10px;
   justify-content: center;
+  text-transform: capitalize;
 }
 
 .main {
@@ -174,10 +169,6 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
   align-items: stretch;
 }
 
-.main__item {
-  
-}
-
 .main__card-search {
   width: 80%;
   padding: 10px 20px;
@@ -193,7 +184,6 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
   border-radius: 50px;
   background-color: $secondary-bg-color;
   color: black;
-  //height: auto !important;
 }
 
 .card__input {
@@ -217,8 +207,6 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
   display: flex;
   gap: 10px;
 }
-
-
 
 @media (width <= 1150px) {
     .main {

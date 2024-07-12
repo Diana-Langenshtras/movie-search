@@ -1,29 +1,29 @@
 <template>
     <div class="main__card-container">
       <v-hover v-slot="{ isHovering, props }">
-        <v-card class="mx-auto" max-width="344" v-bind="props">
+        <v-card class="mx-auto main__card" max-width="344" v-bind="props">
           <v-img class="card__image" cover :src="movie.poster.previewUrl"></v-img>
   
           <v-card-item>
             <v-card-title>
-              <h2 class="text-h6 text-primary">{{ movie.name }}</h2>
+              <h2 class="text-h6 text">{{ movie.name }}</h2>
             </v-card-title>
         <!-- <v-rating :value="3"></v-rating>-->  
-            <v-card-subtitle>
-              <span class="text-primary text-subtitle-2">{{ (movie.rating.kp).toFixed(1) }}</span>
-            </v-card-subtitle>
-            <v-card-subtitle>
-              <span class="text-primary text-subtitle-2">{{ movie.year }}</span>
+            <v-card-subtitle class="card__info">
+              <span class="text text-subtitle-1 card__item">{{ movie.year }}</span>
+              <span class="text text-subtitle-1 card__item">
+                <svg-icon type="mdi" :path="pathRate"></svg-icon>
+                {{ (movie.rating.kp).toFixed(1) }}</span>     
             </v-card-subtitle>
           </v-card-item>
           <v-overlay
             :model-value="isHovering"
             class="align-center justify-center"
-            scrim="#036358"
+            scrim="#0b0f16"
             contained
           >
           <router-link :to="`/movie/${id}`">
-            <v-btn variant="flat">See more info</v-btn>
+            <v-btn class="button" >Узнать больше</v-btn>
           </router-link>
           </v-overlay>
         </v-card>
@@ -31,34 +31,71 @@
     </div>
    
   </template>
-  <script>
+
+<script>
+import SvgIcon from '@jamescoyle/vue-icon';
+import { mdiStarOutline } from '@mdi/js';
 
   export default {
     props: {
       id: Number,
-   //   name: String,
-    //  rating: Number,
-   //   year: Number,
-    //  poster: String,
       movie: Object,
     },
 
-    data: () => ({ 
-      
-     }),
+    components: {
+        SvgIcon, 
+    },
+
+    data() {
+        return {
+          pathRate: mdiStarOutline,
+     }},
   }
 </script>
 
 <style lang="scss" scoped>
 @import '../assets/styles/style.scss';
 
+.button {
+  background-color: $primary-color;
+  color: $text-color;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 18px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  text-transform: none;
+}
+
 .main__card-container {
-  width: 200px;
+  width: 220px;
+}
+
+.main__card {
+  background-color: $secondary-bg-color;
+}
+
+.text {
+  color: $text-color;
 }
 
 .card__image {
   height: 300px;
   width: 100%;
+}
+
+.card__info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.card__item {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
 }
 
 </style>
