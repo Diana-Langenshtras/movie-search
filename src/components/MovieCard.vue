@@ -23,7 +23,7 @@
             contained
           >
           <router-link class="link" :to="`/movie/${id}`">
-            <v-btn class="button" >Узнать больше</v-btn>
+            <v-btn class="button">Узнать больше</v-btn>
           </router-link>
           </v-overlay>
         </v-card>

@@ -30,9 +30,15 @@ h2 {
     display: flex;
     gap: 10px;
     justify-content: center;
-    align-content: center;
     text-transform: none;
+    align-items: center;
   }
+
+.button:hover {
+    background-color: $secondary-color;
+    transition: opacity ease 0.3s;
+    cursor: pointer;
+}
 
 @media (width <= 768px) {
     h1 {

@@ -82,7 +82,7 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
 <template>
   <main class="main">
     <router-link class="link" :to="`/bookmarks`">
-      <v-btn class="button">Закладки и оценки</v-btn>
+      <button class="button">Закладки и оценки</button>
     </router-link>
     <v-card class="main__card-search" flat >
       <v-toolbar class="card__toolbar" dense floating>
@@ -91,7 +91,7 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
           class="card__input"
           v-model="search"
           hide-details="auto"
-          bg-color="#282828"
+          bg-color="#202020"
           color="#002677"
         >
         </v-text-field>
@@ -144,18 +144,6 @@ const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
 <style lang="scss" scoped>
 @import '../assets/styles/style.scss';
 
-.button {
-    background-color: $primary-color;
-    color: $text-color;
-    border-radius: 50px;
-    padding: 10px 20px;
-    font-size: 20px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-content: center;
-    text-transform: none;
-  }
 
 .main {
   padding: 50px;

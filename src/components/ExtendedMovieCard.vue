@@ -1,6 +1,6 @@
 <script setup>
 import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiClockTimeFourOutline, mdiSortNumericVariant, mdiCalendarBlankOutline, mdiStarOutline } from '@mdi/js';
+import { mdiClockTimeFourOutline, mdiCalendarBlankOutline, mdiStarOutline } from '@mdi/js';
 
 import StarRating from 'vue-star-rating'
 
@@ -77,90 +77,6 @@ import MovieCard from '../components/MovieCard.vue'
       })
 
 </script>
-
-<!--<script>
-import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiClockTimeFourOutline } from '@mdi/js';
-import { mdiCalendarBlankOutline } from '@mdi/js';
-import { mdiStarOutline } from '@mdi/js';
-
-import { mapState } from 'pinia';
-import { useRootStore } from '../stores/root';
-import { storeToRefs } from 'pinia';
-
-import StarRating from 'vue-star-rating'
-
-export default {
-    components: {
-        SvgIcon, StarRating,
-    },
-    data() {
-        return {
-            pathTime: mdiClockTimeFourOutline,
-            pathDate: mdiCalendarBlankOutline,
-            pathRate: mdiStarOutline,
-        //    movies: [],
-       //     savesAndRatings: [],
-            rating: 5,
-            active: false,
-            buttonText: 'Добавить в закладки'
-        }
-    },
-    methods: {
-        handleClick() {
-            let flag = true;
-            this.active = !this.active;
-            if (this.active) this.buttonText = 'Добавлено';
-            else this.buttonText = 'Добавить в закладки';
-            this.savesAndRatings.forEach((item) => {
-                if (item.id === this.$route.params.id) 
-                {
-                    item.save = this.active;
-                    flag = false;
-                }
-            })
-            if (flag) this.savesAndRatings.push({
-                id: this.$route.params.id,
-                rating: 0,
-                save: this.active,
-            })
-            console.log(this.savesAndRatings)
-        },
-    },
-    created() {
-    /*  const rootStore = useRootStore();
-      rootStore.getMovies();
-      const {movies} = storeToRefs(rootStore);
-      this.movies = movies;
-      const {savesAndRatings} = storeToRefs(rootStore);
-      this.savesAndRatings = savesAndRatings;
-      console.log(movies);*/
-    },
-    computed: {
-        ...mapState(useRootStore, ['movies']),
-        ...mapState(useRootStore, ['savesAndRatings']),
-    },
-    watch: {
-      rating(){
-        let flag = true;
-        this.savesAndRatings.forEach((item) => {
-                if (item.id === this.$route.params.id) 
-                {
-                    item.rating = this.rating;
-                    flag = false;
-                }
-            })
-            if (flag) this.savesAndRatings.push({
-                id: this.$route.params.id,
-                rating: this.rating,
-                save: this.active,
-            })
-            console.log(this.savesAndRatings)
-            
-      },    
-    },   
-}
-</script>-->
 
 <template>
 <!--    <main class="main"  :style="{ backgroundImage: `url(${movies[$route.params.id].poster.url})`}">-->
@@ -263,10 +179,7 @@ export default {
     flex-direction: row;
     gap: 10px;
     justify-content: center;
-}
-
-.item__text {
-    
+    align-items: center;
 }
 
 .main__recommendation {
@@ -288,6 +201,7 @@ export default {
     display: flex;
     flex-direction: row;
     gap: 50px;
+    flex-wrap: wrap;
 }
 
 .card {
