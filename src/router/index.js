@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import Home from '../pages/Home.vue'
+import HomePage from '../pages/HomePage.vue'
 import ExtendedMovieCard from '../components/ExtendedMovieCard.vue'
-import Bookmarks from '../pages/Bookmarks.vue'
+import BookmarksPage from '../pages/BookmarksPage.vue'
 
 const routes = [
-  { name: "start", path: '/', component: Home},
+  { name: "start", path: '/', component: HomePage},
   { name: "movie", path: '/movie/:id', component: ExtendedMovieCard },
-  { name: "bookmarks", path: '/bookmarks', component: Bookmarks },
+  { name: "bookmarks", path: '/bookmarks', component: BookmarksPage },
 ]
 
 const router = createRouter({

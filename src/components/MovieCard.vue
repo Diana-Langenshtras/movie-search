@@ -2,17 +2,15 @@
     <div class="main__card-container">
       <v-hover v-slot="{ isHovering, props }">
         <v-card class="mx-auto main__card" max-width="344" v-bind="props">
-          <v-img class="card__image" cover :src="movie.poster.previewUrl"></v-img>
-  
+          <v-img class="card__image" cover :src="movie.poster.previewUrl"/>
           <v-card-item>
             <v-card-title>
               <h2 class="text-h6 text">{{ movie.name }}</h2>
             </v-card-title>
-        <!-- <v-rating :value="3"></v-rating>-->  
             <v-card-subtitle class="card__info">
               <span class="text text-subtitle-1 card__item">{{ movie.year }}</span>
               <span class="text text-subtitle-1 card__item">
-                <svg-icon type="mdi" :path="pathRate"></svg-icon>
+                <svg-icon type="mdi" :path="pathRate"/>
                 {{ (movie.rating.kp).toFixed(1) }}</span>     
             </v-card-subtitle>
           </v-card-item>
@@ -22,9 +20,9 @@
             scrim="#0b0f16"
             contained
           >
-          <router-link class="link" :to="`/movie/${id}`">
-            <v-btn class="button">Узнать больше</v-btn>
-          </router-link>
+            <router-link class="link" :to="`/movie/${id}`">
+              <v-btn class="button">Узнать больше</v-btn>
+            </router-link>
           </v-overlay>
         </v-card>
       </v-hover>
@@ -38,8 +36,14 @@ import { mdiStarOutline } from '@mdi/js';
 
   export default {
     props: {
-      id: Number,
-      movie: Object,
+      id: {
+        type: Number,
+        required: true,
+      },
+      movie: {
+        type: Object,
+        required: true,
+      },
     },
 
     components: {
@@ -51,10 +55,10 @@ import { mdiStarOutline } from '@mdi/js';
           pathRate: mdiStarOutline,
      }},
   }
+  
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/styles/style.scss';
 
 .main__card-container {
   width: 220px;

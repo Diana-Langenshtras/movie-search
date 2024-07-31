@@ -3,31 +3,30 @@
         <div class="d-flex flex-no-wrap justify-space-between">
             <div>
                 <v-card-title class="text-h5"> {{ movie?.name }} </v-card-title>
-
                 <v-card-subtitle class="description__info">
                     <span class="description__item">
-                        <svg-icon type="mdi" :path="pathTime"></svg-icon>
+                        <svg-icon type="mdi" :path="pathTime"/>
                         {{ movie?.movieLength }}
                     </span>
                     <span class="description__item">
-                        <svg-icon type="mdi" :path="pathDate"></svg-icon>
+                        <svg-icon type="mdi" :path="pathDate"/>
                         {{ movie?.year }}
                     </span>
                     <span class="description__item">
-                        <svg-icon type="mdi" :path="pathRate"></svg-icon>
+                        <svg-icon type="mdi" :path="pathRate"/>
                         {{ (movie?.rating.kp)?.toFixed(1) }}
                     </span>    
                 </v-card-subtitle>
 
                 <v-card-actions>
                     <v-btn
-                        class="ms-2 button"
-                        size="small"
-                        @click="deleteItem(movie?.id)"
-                        :style="{
-                            backgroundColor: rootStore.savesAndRatings[movie?.id].save ? '#ffd055' : '#240090',
-                            color: rootStore.savesAndRatings[movie?.id].save ? 'black' : 'white',
-                        }"
+                      class="ms-2 button"
+                      size="small"
+                      @click="deleteItem(movie?.id)"
+                      :style="{
+                        backgroundColor: rootStore.savesAndRatings[movie?.id].save ? '#ffd055' : '#240090',
+                        color: rootStore.savesAndRatings[movie?.id].save ? 'black' : 'white',
+                      }"
                     >
                         <span v-if="rootStore.savesAndRatings[movie?.id].save">сохранено</span>
                         <span v-else>не сохранено</span>
@@ -36,9 +35,7 @@
             </div>
 
             <v-avatar class="ma-3 img" rounded="0" size="125">       
-                <v-img 
-                    :src="movie?.poster.previewUrl" :alt="`Постер фильма '${movie?.name}'`"
-                ></v-img>
+                <v-img :src="movie?.poster.previewUrl" :alt="`Постер фильма '${movie?.name}'`"/>
             </v-avatar>
         </div>
     </v-card>
@@ -48,7 +45,6 @@
 <script setup>
 import SvgIcon from '@jamescoyle/vue-icon';
 import { useRootStore } from '../stores/root';
-import { ref } from 'vue';
 import { mdiClockTimeFourOutline, mdiCalendarBlankOutline, mdiStarOutline } from '@mdi/js';
 
     const pathTime = mdiClockTimeFourOutline;
@@ -57,20 +53,23 @@ import { mdiClockTimeFourOutline, mdiCalendarBlankOutline, mdiStarOutline } from
     const rootStore = useRootStore();
 
     const props = defineProps({
-      id: Number,
-      movie: Object,
+        id: {
+          type: Number,
+          required: true,
+        },
+        movie: {
+          type: Object,
+          required: true,
+        },
     })
     
     function deleteItem(index) {
-        console.log(index);
         rootStore.deleteSave(index);
-        console.log(rootStore.savesAndRatings)
     }
 
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/styles/style.scss';
 
 .button {
     background-color: $second-text-color;
@@ -98,16 +97,11 @@ import { mdiClockTimeFourOutline, mdiCalendarBlankOutline, mdiStarOutline } from
 .card {
     background-color: $secondary-bg-color;
     color: $text-color;
-    height: 400px !important;
 }
 
 .img{
     height: 160px !important;
 }
-
-@media (width <= 768px) {
-    
-  }
 
 </style>
 

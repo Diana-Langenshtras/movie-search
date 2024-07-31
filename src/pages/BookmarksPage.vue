@@ -4,24 +4,23 @@
         <div class="main__button-container">
           <button class="button" @click="sortParam='year'">
               Год
-            <svg-icon type="mdi" :path="pathDate"></svg-icon>    
+            <svg-icon type="mdi" :path="pathDate"/>    
           </button>
           <button class="button" @click="sortParam='rating'">
               Рейтинг
-            <svg-icon type="mdi" :path="pathRate"></svg-icon>    
+            <svg-icon type="mdi" :path="pathRate"/>
           </button>
           <button class="button" @click="sortParam='timekeeping'">
               Время
-            <svg-icon type="mdi" :path="pathTime"></svg-icon>    
+            <svg-icon type="mdi" :path="pathTime"/>  
           </button>
         </div>
         <ul class="main__list">
-          <li class="main__item" v-for="(movie,index) in bookmarksMovies"><BookmarkCard 
-              :key="index"
+          <li class="main__item" v-for="movie in bookmarksMovies" :key="Number(movie.id)"><BookmarkCard 
               :id="Number(movie.id)"
               :movie="movie"
-            >
-          </BookmarkCard></li>
+            />
+          </li>
         </ul>
     </main>
 </template>
@@ -36,24 +35,17 @@ import { ref } from 'vue';
 
 import BookmarkCard from '../components/BookmarkCard.vue'
 
-    const sortByYear = (d1, d2) => (d1.year > d2.year) ? 1 : -1;
-    const sortByRating = (d1, d2) => (d1.rating.kp > d2.rating.kp) ? -1 : 1;
-    const sortByTime = (d1, d2) => (d1.movieLength > d2.movieLength) ? 1 : -1;
+    const sortByYear = (d1, d2) => d1.year - d2.year;
+    const sortByRating = (d1, d2) => d2.rating.kp - d1.rating.kp;
+    const sortByTime = (d1, d2) => d1.movieLength - d2.movieLength;
     const rootStore = useRootStore();
-    rootStore.getMovies();
     const sortParam = ref ('');
     const pathTime = mdiClockTimeFourOutline;
     const pathDate = mdiCalendarBlankOutline;
     const pathRate = mdiStarOutline;
 
     const bookmarksMovies = computed(() => {
-        const array = [];
-        rootStore.movies.map(el => {
-            if (el.id in rootStore.savesAndRatings)
-            {
-                array.push(el);
-            }
-        })
+        const array = rootStore.movies.filter(el => el.id in rootStore.savesAndRatings);
         switch(sortParam.value){
             case 'year': {
                 return array.sort(sortByYear);
@@ -67,10 +59,10 @@ import BookmarkCard from '../components/BookmarkCard.vue'
             default: return array;
         }
     })  
+
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/styles/style.scss';
 
 .main {
   padding: 50px;

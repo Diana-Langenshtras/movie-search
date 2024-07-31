@@ -6,9 +6,7 @@ import StarRating from 'vue-star-rating'
 
 import { useRootStore } from '../stores/root';
 import { useRoute } from 'vue-router';
-import { storeToRefs } from 'pinia';
 
-import { watch } from 'vue'
 import { computed } from 'vue';
 import { ref } from 'vue';
 
@@ -16,12 +14,25 @@ import MovieCard from '../components/MovieCard.vue'
 
     const route = useRoute()
     const rootStore = useRootStore();
-    rootStore.getMovies();
     const pathTime = mdiClockTimeFourOutline;
     const pathDate = mdiCalendarBlankOutline;
     const pathRate = mdiStarOutline;
-    const rating = rootStore.savesAndRatings[route.params.id]?.rating ? ref(rootStore.savesAndRatings[route.params.id].rating) : ref(5);
-    const active = rootStore.savesAndRatings[route.params.id]?.save ? ref(rootStore.savesAndRatings[route.params.id].save) : ref(false);
+    const rating = computed({
+            get() {
+                return rootStore.savesAndRatings[route.params.id]?.rating || 5;
+            },
+           set(newValue) {
+                rootStore.updateRatings(newValue, route.params.id);
+            }
+        })
+    const isActive = computed({
+        get() {
+                return rootStore.savesAndRatings[route.params.id]?.save || false;
+            },
+        set(newValue) {
+                rootStore.updateSaves(newValue, route.params.id);
+            }
+        })
     const buttonText = ref('Добавить в закладки');
 
     function match(str1, str2){
@@ -49,47 +60,38 @@ import MovieCard from '../components/MovieCard.vue'
         return rootStore.movies.find(movie => movie?.id === id);
     }
 
-    watch(movie, current => {}, { immediate: true })
-
     const similarMovies = computed(() => {
-        const array = [];
-        rootStore.movies.map(el => {
-            if (10 < match(String(movie.value.shortDescription), String(el.shortDescription)) && match(String(movie.value.shortDescription), String(el.shortDescription)) < 100)
-             {   
-                array.push(el);
-             }
-        })
-        console.log(array);
+        const array = rootStore.movies.filter(el => (10 < match(String(movie.value.shortDescription), String(el.shortDescription)) && match(String(movie.value.shortDescription), String(el.shortDescription)) < 100));
         return array;
     });
 
     function handleClick() {
-        active.value = !active.value;
-        if (active.value) buttonText.value = 'Добавлено';
+        isActive.value = !isActive.value;
+        if (isActive.value) buttonText.value = 'Добавлено';
         else buttonText.value = 'Добавить в закладки';
-        rootStore.updateSaves(active.value, route.params.id);
-        console.log(rootStore.savesAndRatings);
     }
-
-    watch(rating, () => {
-        rootStore.updateRatings(active.value, rating.value, route.params.id)
-        console.log(rootStore.savesAndRatings)   
-      })
 
 </script>
 
 <template>
-<!--    <main class="main"  :style="{ backgroundImage: `url(${movies[$route.params.id].poster.url})`}">-->
-<!--   <main class="main" :style="{'background-color':`${movies[$route.params.id].color}`}">-->
     <main class="main">
         <section class="main__section">
             <div class="main__container">
                 <img class="main__img" :src="movie?.poster.url" :alt="`Постер фильма '${movie?.name}'`">
-                <star-rating v-model:rating="rating" :increment="0.5" :max-rating="10" :star-size="20"/>
-                <button class="button" @click="handleClick" :style="{
-                    backgroundColor: active ? '#ffd055' : '#240090',
-                    color: active ? 'black' : 'white',
-                }">
+                <star-rating 
+                  v-model:rating="rating" 
+                  :increment="0.5" 
+                  :max-rating="10" 
+                  :star-size="20"
+                />
+                <button 
+                  class="button" 
+                  @click="handleClick" 
+                  :style="{
+                    backgroundColor: isActive ? '#ffd055' : '#240090',
+                    color: isActive ? 'black' : 'white',
+                  }"
+                >
                     {{buttonText}}
                 </button> 
             </div>
@@ -98,15 +100,15 @@ import MovieCard from '../components/MovieCard.vue'
                 <h2>{{ movie?.shortDescription }}</h2>
                 <div class="description__info">
                     <span class="description__item">
-                        <svg-icon type="mdi" :path="pathTime"></svg-icon>
+                        <svg-icon type="mdi" :path="pathTime"/>
                         {{ movie?.movieLength }}
                     </span>
                     <span class="description__item">
-                        <svg-icon type="mdi" :path="pathDate"></svg-icon>
+                        <svg-icon type="mdi" :path="pathDate"/>
                         {{ movie?.year }}
                     </span>
                     <span class="description__item">
-                        <svg-icon type="mdi" :path="pathRate"></svg-icon>
+                        <svg-icon type="mdi" :path="pathRate"/>
                         {{ (movie?.rating.kp)?.toFixed(1) }}
                     </span>    
                 </div>
@@ -116,15 +118,12 @@ import MovieCard from '../components/MovieCard.vue'
         <section class="main__recommendation">
             <h2 class="recommendation__title">Рекомендуем посмотреть</h2>
             <ul class="recommendation__list">
-                <li class="recommendation__item" v-for="(movie,index) in similarMovies">
+                <li class="recommendation__item" v-for="movie in similarMovies" :key="Number(movie.id)">
                     <MovieCard 
-                        class="card"
-                        :key="index"
-                        :id="Number(movie.id)"
-                        :movie="movie"
-                        >
-                        {{ console.log(movie) }}
-                    </MovieCard>
+                      class="card"       
+                      :id="Number(movie.id)"
+                      :movie="movie"
+                    />
                 </li>
             </ul>
         </section>
@@ -132,7 +131,6 @@ import MovieCard from '../components/MovieCard.vue'
 </template>
 
 <style lang="scss" scoped>
-@import '../assets/styles/style.scss';
 
 .vue-star-rating[data-v-f675a548]{
     justify-content: center;
@@ -221,7 +219,6 @@ import MovieCard from '../components/MovieCard.vue'
     .main__img {
         width: 60%;
         justify-self: center;
-      //  height: 100%;
     }
   }
 

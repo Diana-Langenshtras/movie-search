@@ -21,9 +21,13 @@ export const useRootStore = defineStore(STORE_NAME,
         }),
 
         actions: {
-            async getMovies() {
-                const data = await axios.get(MOVIES_URL);
-                this.movies = data?.data;
+            async getMovies() {       
+                try {
+                    const data = await axios.get(MOVIES_URL);
+                    this.movies = data?.data;
+                  } catch (err) {
+                    console.log(err.code); 
+                  }
             },
 
             updateSaves(active, id){
@@ -42,10 +46,10 @@ export const useRootStore = defineStore(STORE_NAME,
                 localStorage.setItem(STORE_NAME, JSON.stringify(this.savesAndRatings));
             },
 
-            updateRatings(active, rating, id){
+            updateRatings(rating, id){
                 if (!(id in this.savesAndRatings))
                     this.savesAndRatings[id] = {
-                        save: active,
+                        save: false,
                         rating: rating,
                     };
                 else this.savesAndRatings[id].rating = rating;
