@@ -20,41 +20,43 @@ import { ref } from 'vue';
     const page = ref(1);
     const sortParam = ref('');
     const hasNextPage = ref(true);
-    const movies = computed(() => {return rootStore.movies});
+    
     const sortByYear = (d1, d2) => d1.year - d2.year;
     const sortByRating = (d1, d2) => d2.rating.kp - d1.rating.kp;
     const sortByTime = (d1, d2) => d1.movieLength - d2.movieLength;
-    
-      const sortedMovies = computed(() => {
-          const copyMovies = movies.value;
-          const start = (page.value - 1) * 15;
-          const end = page.value * 15;        
-            switch(sortParam.value){
-                case 'year': {
-                  return (copyMovies.filter(movie => movie.name.toLowerCase().includes(search.value.toLowerCase()))).sort(sortByYear).slice(start, end);
-                }
-                case 'rating': {
-                  return (copyMovies.filter(movie => movie.name.toLowerCase().includes(search.value.toLowerCase()))).sort(sortByRating).slice(start, end);
-                }
-                case 'timekeeping': {
-                  return (copyMovies.filter(movie => movie.name.toLowerCase().includes(search.value.toLowerCase()))).sort(sortByTime).slice(start, end);
-                }
-                default: return ((movies.value).filter(movie => movie.name.toLowerCase().includes(search.value.toLowerCase()))).slice(start, end);
-          }
-      })
-        
-      watch(sortParam, () => {
-        page.value = 1;
-      })
 
-      watch(search, () => {
+    const movies = computed(() => {return rootStore.movies});
+    
+    const sortedMovies = computed(() => {     
+        const copyMovies = movies.value;
+        const start = (page.value - 1) * 15;
+        const end = page.value * 15;        
+        switch(sortParam.value){
+            case 'year': {
+              return (copyMovies.filter(movie => movie.name.toLowerCase().includes(search.value.toLowerCase()))).sort(sortByYear).slice(start, end);
+            }
+            case 'rating': {
+              return (copyMovies.filter(movie => movie.name.toLowerCase().includes(search.value.toLowerCase()))).sort(sortByRating).slice(start, end);
+            }
+            case 'timekeeping': {
+              return (copyMovies.filter(movie => movie.name.toLowerCase().includes(search.value.toLowerCase()))).sort(sortByTime).slice(start, end);
+            }
+            default: return ((movies.value).filter(movie => movie.name.toLowerCase().includes(search.value.toLowerCase()))).slice(start, end);
+        }
+    })
+        
+    watch(sortParam, () => {
+        page.value = 1;
+    })
+
+    watch(search, () => {
         page.value = 1;
         hasNextPage.value = ((movies.value).filter(movie => movie.name.toLowerCase().includes(search.value.toLowerCase()))).length > page.value * 15;
-      })
+    })
     
-      watch(page, () => {
+    watch(page, () => {
         hasNextPage.value = ((movies.value).filter(movie => movie.name.toLowerCase().includes(search.value.toLowerCase()))).length > page.value * 15;
-      })
+    })
 
 </script>
 

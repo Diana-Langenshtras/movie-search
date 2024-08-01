@@ -17,14 +17,17 @@ import MovieCard from '../components/MovieCard.vue'
     const pathTime = mdiClockTimeFourOutline;
     const pathDate = mdiCalendarBlankOutline;
     const pathRate = mdiStarOutline;
+    const buttonText = ref('Добавить в закладки');
+
     const rating = computed({
-            get() {
-                return rootStore.savesAndRatings[route.params.id]?.rating || 5;
-            },
-           set(newValue) {
-                rootStore.updateRatings(newValue, route.params.id);
-            }
-        })
+        get() {
+            return rootStore.savesAndRatings[route.params.id]?.rating || 5;
+        },
+        set(newValue) {
+            rootStore.updateRatings(newValue, route.params.id);
+        }
+    })
+
     const isActive = computed({
         get() {
                 return rootStore.savesAndRatings[route.params.id]?.save || false;
@@ -33,9 +36,16 @@ import MovieCard from '../components/MovieCard.vue'
                 rootStore.updateSaves(newValue, route.params.id);
             }
         })
-    const buttonText = ref('Добавить в закладки');
+
+    const similarMovies = computed(() => {
+        const array = rootStore.movies.filter(el => (10 < match(String(movie.value.shortDescription), String(el.shortDescription)) && match(String(movie.value.shortDescription), String(el.shortDescription)) < 100));
+        return array;
+    });
+
+    const movie = computed(() => getMovie(route.params.id));
 
     function match(str1, str2){
+
         let tmpValue = 0;
         let minLength = str1.length;
         if(str1.length > str2.length){
@@ -52,20 +62,15 @@ import MovieCard from '../components/MovieCard.vue'
         }
         let weight = tmpValue / maxLength;
         return (weight * 100);
-    }
-
-    const movie = computed(() => getMovie(route.params.id));
+    } 
 
     function getMovie(id) {
+
         return rootStore.movies.find(movie => movie?.id === id);
     }
 
-    const similarMovies = computed(() => {
-        const array = rootStore.movies.filter(el => (10 < match(String(movie.value.shortDescription), String(el.shortDescription)) && match(String(movie.value.shortDescription), String(el.shortDescription)) < 100));
-        return array;
-    });
-
     function handleClick() {
+
         isActive.value = !isActive.value;
         if (isActive.value) buttonText.value = 'Добавлено';
         else buttonText.value = 'Добавить в закладки';

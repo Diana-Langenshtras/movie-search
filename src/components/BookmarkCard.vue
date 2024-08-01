@@ -2,7 +2,7 @@
     <v-card class="card">
         <div class="d-flex flex-no-wrap justify-space-between">
             <div>
-                <v-card-title class="text-h5"> {{ movie?.name }} </v-card-title>
+                <v-card-title class="text-h5 card__title"> {{ movie?.name }} </v-card-title>
                 <v-card-subtitle class="description__info">
                     <span class="description__item">
                         <svg-icon type="mdi" :path="pathTime"/>
@@ -64,6 +64,7 @@ import { mdiClockTimeFourOutline, mdiCalendarBlankOutline, mdiStarOutline } from
     })
     
     function deleteItem(index) {
+
         rootStore.deleteSave(index);
     }
 
@@ -97,10 +98,17 @@ import { mdiClockTimeFourOutline, mdiCalendarBlankOutline, mdiStarOutline } from
 .card {
     background-color: $secondary-bg-color;
     color: $text-color;
+    min-height: 250px;
+    padding: 10px;
+}
+
+.card__title {
+    max-width: 250px;
+    white-space: normal;
 }
 
 .img{
-    height: 160px !important;
+    height: 200px !important;
 }
 
 </style>

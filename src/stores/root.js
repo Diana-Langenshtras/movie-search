@@ -21,7 +21,8 @@ export const useRootStore = defineStore(STORE_NAME,
         }),
 
         actions: {
-            async getMovies() {       
+            async getMovies() {     
+
                 try {
                     const data = await axios.get(MOVIES_URL);
                     this.movies = data?.data;
@@ -31,28 +32,41 @@ export const useRootStore = defineStore(STORE_NAME,
             },
 
             updateSaves(active, id){
-                if (!(id in this.savesAndRatings))
-                this.savesAndRatings[id] = {
-                    save: active,
-                    rating: 5,
-                };
-                else this.savesAndRatings[id].save = active;
+
+                if (!(id in this.savesAndRatings)){
+                    this.savesAndRatings[id] = {
+                        save: active,
+                        rating: 5,
+                    };
+                }
+                else 
+                {
+                    this.savesAndRatings[id].save = active;
+                }
                 localStorage.setItem(STORE_NAME, JSON.stringify(this.savesAndRatings));
             },
 
             deleteSave(id){
+
                 if (id in this.savesAndRatings)
-                    this.savesAndRatings[id].save = false;
+                    {
+                        this.savesAndRatings[id].save = false;
+                    }
                 localStorage.setItem(STORE_NAME, JSON.stringify(this.savesAndRatings));
             },
 
             updateRatings(rating, id){
+
                 if (!(id in this.savesAndRatings))
-                    this.savesAndRatings[id] = {
-                        save: false,
-                        rating: rating,
-                    };
-                else this.savesAndRatings[id].rating = rating;
+                    {
+                        this.savesAndRatings[id] = {
+                            save: false,
+                            rating: rating,
+                        };
+                    }
+                else {
+                    this.savesAndRatings[id].rating = rating;
+                    }
                 localStorage.setItem(STORE_NAME, JSON.stringify(this.savesAndRatings));
             },
         }
